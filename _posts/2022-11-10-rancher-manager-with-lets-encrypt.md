@@ -11,7 +11,7 @@ tags: [kubernetes,k8s,cert-manager,rancher,helm,ci/cd]
 Rancher is a popular open-source platform for managing and deploying containerized applications on Kubernetes. By using cert-manager and Let's Encrypt, we will ensure that all communication with the Rancher server is secure and encrypted.
 
 ### Watch the tutorial
-{% include embed/youtube.html id='fBd_tz6BALU' %}
+{% include embed/youtube.html id='IdvhywzV1oo' %}
 ▶️ [Watch On YouTube](https://youtu.be/IdvhywzV1oo)
 
 ## Prerequsites
