@@ -241,4 +241,4 @@ Select your choice then hit ENTER. The configuration will be updated, and Nginx 
 
 Nginx should now be serving your domain name. You can test this by navigating to https://your_domain
 
-That's it! You have now successfully installed Sonarque, if you found this tutotial helpful please consider subscribing to my YouTube Channel for more tutorials like this. https://www.youtube.com/@dineshmistry
+That's it! You have now successfully installed Sonarque, if you found this tutotial helpful please consider subscribing to my [YouTube Channel](https://www.youtube.com/dineshmistry?sub_confirmation=1) for more tutorials like this. 
