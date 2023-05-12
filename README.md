@@ -13,7 +13,6 @@ To fully use all the features of **Chirpy**, you need to copy the other critical
 ├── _tabs
 └── index.html
 ```
-
 To save you time, and also in case you lose some files while copying, we extract those files/configurations of the latest version of the **Chirpy** theme and the [CD][CD] workflow to here, so that you can start writing in minutes.
 
 ## Prerequisites
