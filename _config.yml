@@ -26,8 +26,8 @@ description: >- # used by seo meta and the atom feed
   Dedicated to providing you with the latest DevOps knowledge, and best practices to help you achieve your goals. 
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
-url: "https://dmancloud.github.io"
-
+#url: "https://dmancloud.github.io"
+url: "https://docs.dmanc.loud"
 github:
   username: dmancloud # change to your github username
 
