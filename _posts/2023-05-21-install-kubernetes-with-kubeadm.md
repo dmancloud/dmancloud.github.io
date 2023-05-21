@@ -156,3 +156,31 @@ KUBELET_EXTRA_ARGS=--node-ip=$local_ip
 EOF
 ```
 ## Initialize Kubeadm On Master Node To Setup Control Plane
+Set the following environment variables. Replace `192.168.1.20` with the IP of your master node.
+```sh
+export IPADDR="192.168.1.20"
+export NODENAME=$(hostname -s)
+export POD_CIDR="10.1.0.0/16"
+```
+Now, initialize the master node control plane configurations using the kubeadm command.
+
+```sh
+sudo kubeadm init --apiserver-advertise-address=$IPADDR  --apiserver-cert-extra-sans=$IPADDR  --pod-network-cidr=$POD_CIDR --node-name $NODENAME --ignore-preflight-errors Swap
+```
+
+On a successful kubeadm initialization, you should get an output with kubeconfig file location and the join command with the token as shown below. Copy that and save it to the file. we will need it for joining the worker node to the master.
+
+### Test cluster access
+Use the following commands from the output to create the `kubeconfig` in master so that you can use `kubectl` to interact with cluster API.
+
+```sh
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+Now, verify the kubeconfig by executing the following kubectl command to list all the pods in the `kube-system` namespace.
+```sh
+kubectl get po -n kube-system
+```
+You should see the following output. You will see the two Coredns pods in a pending state. It is the expected behavior. Once we install the network plugin, it will be in a running state
+
