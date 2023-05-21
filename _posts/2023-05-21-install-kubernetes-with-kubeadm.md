@@ -1,14 +1,12 @@
 ---
 layout: post
 title: "How To Setup Kubernetes Cluster Using Kubeadm"
-date: 2023-05-21 22:00:00 -0500
+date: 2023-05-21 09:00:00 -0500
 categories: [kubernetes]
 tags: [kubernetes,k8s,kubeadm]
 #image:
 #  path: /assets/img/headers/mirror-image-chess.jpg
 ---
-
-
 [Kubeadm](https://github.com/kubernetes/kubeadm) is an excellent tool to set up a working Kubernetes cluster in less time. It does all the heavy lifting in terms of setting up all Kubernetes cluster components. Also, It follows all the configuration best practices for a Kubernetes cluster.
 
 Kubeadm Setup Prerequisites
