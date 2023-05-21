@@ -200,7 +200,7 @@ Kubeadm does not configure a network plugin. You need to install a network plugi
 In this tutorial we are using the Calico network plugin.
 
 ```sh
-kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
+kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.1/manifests/calico.yaml
 ```
 
 ## Join Worker Nodes To Kubernetes Master Node
@@ -254,4 +254,10 @@ Find and add
 
 ```sh
 kubectl apply -f components.yaml
+```
+
+Now after a few minutes you can check to see if metrics-server is reporting correctly
+
+```sh
+kubectl top node
 ```
