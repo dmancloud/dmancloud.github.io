@@ -222,6 +222,30 @@ worker-node02   Ready    <none>          2m5s    v1.27.2
 ## Setup Kubernetes Metrics Server (Optional)
 Kubeadm does not install the metrics server during its initialization. We have to install it separately.
 
+We will need to modify the official metrics server and add the `--kubelet-insecure-tls=true` flag to the container to make it work 
+
 ```sh
-kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+wget https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+```
+Next we need to edit the file `vim components.yaml` find the image and add the `insecure flag`
+
+```sh 
+vim components.yaml
+```
+Add
+```yml
+    spec:
+      containers:
+      - args:
+        - --cert-dir=/tmp
+        - --kubelet-insecure-tls=true #add this line
+        - --secure-port=4443
+        - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+        - --kubelet-use-node-status-port
+        - --metric-resolution=15s
+        image: registry.k8s.io/metrics-server/metrics-server:v0.6.3
+```
+
+```sh
+kubectl apply -f components.yaml
 ```
