@@ -184,3 +184,44 @@ kubectl get po -n kube-system
 ```
 You should see the following output. You will see the two Coredns pods in a pending state. It is the expected behavior. Once we install the network plugin, it will be in a running state
 
+You can get the cluster info using the following command.
+```sh
+kubectl cluster-info
+```
+## Install Calico Network Plugin for Pod Networking
+Kubeadm does not configure a network plugin. You need to install a network plugin of your choice.
+
+In this tutorial we are using the Calico network plugin.
+
+```sh
+kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
+```
+
+## Join Worker Nodes To Kubernetes Master Node
+Execute the following command on the master node to create the token with the join command.
+```sh
+kubeadm token create --print-join-command
+```
+
+Run this command on the nodes, this will perform the TLS bootstrapping for each of the nodes.
+
+Now execute the kubectl command from the master node to check if the node is added to the master.
+```sh
+kubectl get nodes
+```
+
+Example output,
+```ss
+root@master-node:/home/vagrant# kubectl get nodes
+NAME            STATUS   ROLES           AGE     VERSION
+master-node     Ready    control-plane   14m     v1.27.2
+worker-node01   Ready    <none>          2m13s   v1.27.2
+worker-node02   Ready    <none>          2m5s    v1.27.2
+```
+
+## Setup Kubernetes Metrics Server (Optional)
+Kubeadm does not install the metrics server during its initialization. We have to install it separately.
+
+```sh
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+```
