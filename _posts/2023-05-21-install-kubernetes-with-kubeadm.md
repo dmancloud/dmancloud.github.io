@@ -124,3 +124,35 @@ Reload the systemd configurations and enable cri-o.
 sudo systemctl daemon-reload
 sudo systemctl enable crio --now
 ```
+## Install Kubeadm & Kubelet & Kubectl on all Nodes
+Install the required dependencies.
+```sh
+sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl
+sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+```
+Add the GPG key and apt repository.
+```sh
+echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+```
+Update apt and install the latest version of kubelet, kubeadm, and kubectl.
+```sh
+sudo apt-get update -y
+sudo apt-get install -y kubelet kubeadm kubectl
+```
+Add hold to the packages to prevent upgrades.
+```sh
+sudo apt-mark hold kubelet kubeadm kubectl
+```
+Now we have all the required utilities and tools for configuring Kubernetes components using kubeadm.
+
+Add the node IP to `KUBELET_EXTRA_ARGS`. Make sure you select the correct network interface for your virtual machine. In this example it is `ens192`
+
+```sh
+sudo apt-get install -y jq
+local_ip="$(ip --json a s | jq -r '.[] | if .ifname == "ens192" then .addr_info[] | if .family == "inet" then .local else empty end else empty end')"
+cat > /etc/default/kubelet << EOF
+KUBELET_EXTRA_ARGS=--node-ip=$local_ip
+EOF
+```
+## Initialize Kubeadm On Master Node To Setup Control Plane
