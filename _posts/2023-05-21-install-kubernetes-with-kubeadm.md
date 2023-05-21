@@ -220,7 +220,7 @@ worker-node02   Ready    <none>          2m5s    v1.27.2
 ```
 
 ## Setup Kubernetes Metrics Server (Optional)
-Kubeadm does not install the metrics server during its initialization. We have to install it separately.
+Kubeadm does not install the metrics server during its initialization. Let's install it.
 
 We will need to modify the official metrics server and add the `--kubelet-insecure-tls=true` flag to the container to make it work 
 
