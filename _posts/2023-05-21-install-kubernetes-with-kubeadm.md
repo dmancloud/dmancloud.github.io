@@ -227,12 +227,12 @@ We will need to modify the official metrics server and add the `--kubelet-insecu
 ```sh
 wget https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 ```
-Next we need to edit the file `vim components.yaml` find the image and add the `insecure flag`
+Next we need to edit the file `components.yaml` find the image section and add the `insecure flag`
 
 ```sh 
 vim components.yaml
 ```
-Add
+Find and add
 ```yml
     spec:
       containers:
