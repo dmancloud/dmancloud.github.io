@@ -47,3 +47,80 @@ sudo swapoff -a
 The `fstab` entry will make sure the swap is off on system reboots.
 
 You can also, control swap errors using the kubeadm parameter `--ignore-preflight-errors` Swap we will look at it in the latter part.
+
+## Install CRI-O Runtime On All The Nodes
+
+The basic requirement for a Kubernetes cluster is a container runtime. You can have any one of the following container runtimes.
+
+1.  CRI-O
+2.  containerd
+3.  Docker Engine (using cri-dockerd)
+
+We will be using CRI-O instead of Docker for this setup as [Kubernetes deprecated Docker engine](https://kubernetes.io/blog/2022/02/17/dockershim-faq/)
+
+As a first step, we need to install `cri-o` on all the nodes. Execute the following commands on all the nodes.
+
+Create the `.conf `file to load the modules at bootup
+```sh
+cat <<EOF | sudo tee /etc/modules-load.d/crio.conf
+overlay
+br_netfilter
+EOF
+```
+Set up required sysctl params, these persist across reboots.
+```sh
+cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.ipv4.ip_forward                 = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+EOF
+```
+Execute the following commands to enable overlayFS & VxLan pod communication.
+```sh
+sudo modprobe overlay
+sudo modprobe br_netfilter
+```
+Set up required sysctl params, these persist across reboots.
+```sh
+cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.ipv4.ip_forward                 = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+EOF
+```
+Reload the parameters.
+```sh
+sudo sysctl --system
+```
+Enable cri-o repositories for version 1.27
+```sh
+export OS="xUbuntu_20.04"
+export VERSION="1.27"
+```
+```sh
+cat <<EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /
+EOF
+```
+```sh
+cat <<EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
+deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /
+EOF
+```
+Add the gpg keys.
+```sh
+curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:$VERSION/$OS/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
+```
+```sh
+curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
+```
+Update and install crio and crio-tools.
+```sh
+sudo apt-get update
+sudo apt-get install cri-o cri-o-runc cri-tools -y
+```
+Reload the systemd configurations and enable cri-o.
+```sh
+sudo systemctl daemon-reload
+sudo systemctl enable crio --now
+```
