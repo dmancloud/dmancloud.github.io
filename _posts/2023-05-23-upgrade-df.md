@@ -71,7 +71,7 @@ Ensure the total_rows match for the pairs of Buffer/MergeTree tables.  If they d
 
 clickhouse-client --database=deepfactor --host=localhost --password=$CLICKHOUSE_PASSWORD
 ```
-``` sh
+``` sql
 select name, engine, total_rows, total_bytes from `system`.tables where engine = 'Buffer' or name in (
 'dependency_info_events',
 'hb_events',
