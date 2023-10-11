@@ -4,7 +4,6 @@ When installing the [**Chirpy**][chirpy] theme through [RubyGems.org][gem], Jeky
 
 The Jekyll team claims that this is to leave the ball in the user’s court, but this also results in users not being able to enjoy the out-of-the-box experience when using feature-rich themes.
 
-
 To fully use all the features of **Chirpy**, you need to copy the other critical files from the theme's gem to your Jekyll site. The following is a list of targets:
 
 ```shell
