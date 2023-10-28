@@ -98,10 +98,10 @@ Reload the parameters.
 ```sh
 sudo sysctl --system
 ```
-Enable cri-o repositories for version 1.27
+Enable cri-o repositories for version 1.28
 ```sh
-export OS="xUbuntu_20.04"
-export VERSION="1.27"
+export OS="Debian_12"
+export VERSION="1.28"
 ```
 ```sh
 cat <<EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
