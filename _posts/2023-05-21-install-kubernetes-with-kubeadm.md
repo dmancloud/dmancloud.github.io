@@ -162,9 +162,9 @@ KUBELET_EXTRA_ARGS=--node-ip=$local_ip
 EOF
 ```
 ## Initialize Kubeadm On Master Node To Setup Control Plane
-Set the following environment variables. Replace `192.168.1.20` with the IP of your master node.
+Set the following environment variables. Replace `192.168.1.25` with the IP of your master node.
 ```sh
-export IPADDR="192.168.1.20"
+export IPADDR="192.168.1.25"
 export NODENAME=$(hostname -s)
 export POD_CIDR="10.1.0.0/16"
 ```
