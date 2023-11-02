@@ -14,7 +14,7 @@ Kubeadm Setup Prerequisites
 
 Following are the prerequisites for Kubeadm Kubernetes cluster setup.
 
-1.  Minimum two Ubuntu nodes [One master and one worker node]. You can have more worker nodes as per your requirement.
+1.  Minimum three Debian 12 /Ubuntu 22 nodes [One master and two worker nodes]. You can have more worker nodes as per your requirement.
 2.  The master node should have a minimum of 2 vCPU and 2GB RAM.
 3.  For the worker nodes, a minimum of 1vCPU and 2 GB RAM is recommended.
 4.  192.168.1.X/24 network range with static IPs for master and worker nodes. We will be using the 10.1.x.x series as the pod network range that will be used by the Calico network plugin. Make sure the Node IP range and pod IP range don't overlap.
@@ -134,12 +134,13 @@ sudo systemctl enable crio --now
 Install the required dependencies.
 ```sh
 sudo apt-get update
-sudo apt-get install -y apt-transport-https ca-certificates curl
-sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+sudo apt-get install -y apt-transport-https ca-certificates curl gpg
+sudo curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
 ```
 Add the GPG key and apt repository.
 ```sh
-echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 ```
 Update apt and install the latest version of kubelet, kubeadm, and kubectl.
 ```sh
